@@ -14,13 +14,20 @@ class _ExpensesState extends State<Expenses> {
     Expense(title: 'Flutter Course', amount: 19.19, date: DateTime.now(), category: Category.work),
     Expense(title: 'Lunch', amount: 4.99, date: DateTime.now(),category: Category.food),
   ];
+  void _openAddExpenseOverlay()
+  {
+    showModalBottomSheet(context: context, builder: (ctx){
+      return Text('model button sheet.');
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter Expense tracker'),
         actions: [
-          IconButton(onPressed: (){}, icon: const Icon(Icons.add)),
+          IconButton(onPressed: _openAddExpenseOverlay,
+          icon: const Icon(Icons.add)),
         ],
       ),
       body: Column(
