@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/model/expense.dart';
 // import 'package:intl/intl.dart';
@@ -14,6 +15,7 @@ class NewExpense extends StatefulWidget {
 class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
+  Category _selectedCategory = Category.leisure;
   DateTime? _selectedDate;
   void _presentDatePicker() async
   {
@@ -66,7 +68,7 @@ class _NewExpenseState extends State<NewExpense> {
                   ),
                 ),
               ),
-              const SizedBox(width: 10,),
+              const SizedBox(width: 20,),
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -82,8 +84,27 @@ class _NewExpenseState extends State<NewExpense> {
 
             ],
           ),
+          const SizedBox(height: 20,),
           Row(
             children: [
+              DropdownButton(
+                value: _selectedCategory,
+                items: Category.values.map((e)
+                {
+                  return DropdownMenuItem(
+                    value: e,
+                    child: Text(e.name.toUpperCase())
+                  );
+                }).toList(), 
+                onChanged: (value){
+                  setState(() {
+                    _selectedCategory = value as Category;
+                    //->->
+                  });
+                  //print(value);
+                }
+              ),
+              const Spacer(),
               TextButton(onPressed: (){
                 Navigator.pop(context);
               }, 
