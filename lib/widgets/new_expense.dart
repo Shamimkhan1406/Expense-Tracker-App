@@ -8,10 +8,18 @@ class NewExpense extends StatefulWidget {
 }
 
 class _NewExpenseState extends State<NewExpense> {
-  var _enteredTitle = '';
-  void _saveTitleInput(String inputValue){
-    _enteredTitle = inputValue;
+  final _titleController = TextEditingController();
+  final _amountController = TextEditingController();
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _amountController.dispose();
+    super.dispose();
   }
+  // var _enteredTitle = '';
+  // void _saveTitleInput(String inputValue){
+  //   _enteredTitle = inputValue;
+  // }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -19,22 +27,36 @@ class _NewExpenseState extends State<NewExpense> {
       child: Column(
         children: [
           TextField(
-            onChanged: _saveTitleInput,
+            controller: _titleController,
+            //onChanged: _saveTitleInput,
             maxLength: 50,
             decoration: const InputDecoration(
               labelText: 'Title',
             ),
           ),
+          TextField(
+            controller: _amountController,
+            //onChanged: _saveTitleInput,
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+              prefix: Text('\$ '),
+              labelText: 'Amount',
+            ),
+          ),
           Row(
             children: [
+              TextButton(onPressed: (){}, 
+                child: const Text('Cancell'),
+              ),
               ElevatedButton(onPressed: ()
                 {
-                  print(_enteredTitle);
+                  print(_titleController.text);
+                  print(_amountController.text);
                 }, 
-                child: const Text('Save Expense')
+                child: const Text('Save Expense'),
               ),
             ],
-          )
+          ),
         ],
       ),
     );
