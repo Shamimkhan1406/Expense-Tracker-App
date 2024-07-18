@@ -10,6 +10,13 @@ class NewExpense extends StatefulWidget {
 class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
+  void _presentDatePicker()
+  {
+    //final now = DateTime.now();
+    final firstDate = DateTime(2023);
+    //final lastDate = DateTime(2025);
+    showDatePicker(context: context, firstDate: firstDate, lastDate: DateTime.now());
+  }
   @override
   void dispose() {
     _titleController.dispose();
@@ -34,14 +41,34 @@ class _NewExpenseState extends State<NewExpense> {
               labelText: 'Title',
             ),
           ),
-          TextField(
-            controller: _amountController,
-            //onChanged: _saveTitleInput,
-            keyboardType: TextInputType.number,
-            decoration: const InputDecoration(
-              prefix: Text('\$ '),
-              labelText: 'Amount',
-            ),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _amountController,
+                  //onChanged: _saveTitleInput,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    prefix: Text('\$ '),
+                    labelText: 'Amount',
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10,),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  //crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    const Text('Select Date'),
+                    IconButton(onPressed:_presentDatePicker, 
+                      icon: const Icon(Icons.calendar_month)
+                    ),
+                  ],
+                ),
+              )
+
+            ],
           ),
           Row(
             children: [
