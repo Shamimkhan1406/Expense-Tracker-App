@@ -13,6 +13,19 @@ void main()
           backgroundColor: kColorScheme.onPrimaryContainer,
           foregroundColor: kColorScheme.primary,
         ),
+        cardTheme: const CardTheme().copyWith(
+          color: kColorScheme.onSecondary,
+          elevation: 5,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom(
+          backgroundColor: kColorScheme.onSecondaryContainer,
+          foregroundColor: kColorScheme.onSecondary,
+        )),
+        textTheme: ThemeData().textTheme.copyWith(
+          titleLarge: const TextStyle(
+            color: Colors.white60,
+          )
+        )
       ),
       home: const Expenses(),
     ),
