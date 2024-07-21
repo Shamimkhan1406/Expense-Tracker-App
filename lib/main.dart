@@ -14,6 +14,13 @@ void main()
           backgroundColor: kDarkcolorScheme.onSecondaryContainer,
           foregroundColor: kDarkcolorScheme.onSecondary,
         )),
+        cardTheme: const CardTheme().copyWith(
+          color: kDarkcolorScheme.secondaryContainer,
+          margin: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 8,
+          ),
+        ),
       ),
       theme: ThemeData().copyWith(
         colorScheme: kColorScheme,
