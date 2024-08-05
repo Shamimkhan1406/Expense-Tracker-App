@@ -80,11 +80,49 @@ class _NewExpenseState extends State<NewExpense> {
   @override
   Widget build(BuildContext context) {
     final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
-    return SingleChildScrollView(
+    return LayoutBuilder(builder: ((context, constraints) {
+      // print(constraints.minWidth);
+      // print(constraints.maxWidth);
+      // print(constraints.minHeight);
+      // print(constraints.maxHeight);
+      final  width = constraints.maxWidth;
+    
+      return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.fromLTRB(20, 60, 20, keyboardSpace+20),
         child: Column(
+
           children: [
+            if (width>=600)
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: TextField(
+                    controller: _titleController,
+                    //onChanged: _saveTitleInput,
+                    maxLength: 50,
+                    decoration: const InputDecoration(
+                    labelText: 'Title',
+                                    ),
+                                  ),
+                  ),
+              const SizedBox(width: 16,),
+              Expanded(
+                  child: TextField(
+                    controller: _amountController,
+                    //onChanged: _saveTitleInput,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      prefix: Text('\$ '),
+                      labelText: 'Amount',
+                    ),
+                  ),
+                ),
+
+              ],
+              )
+            else
             TextField(
               controller: _titleController,
               //onChanged: _saveTitleInput,
@@ -93,6 +131,42 @@ class _NewExpenseState extends State<NewExpense> {
                 labelText: 'Title',
               ),
             ),
+            if(width >= 600)
+            Row(
+              children: [
+                DropdownButton(
+                  value: _selectedCategory,
+                  items: Category.values.map((e)
+                  {
+                    return DropdownMenuItem(
+                      value: e,
+                      child: Text(e.name.toUpperCase())
+                    );
+                  }).toList(), 
+                  onChanged: (value){
+                    setState(() {
+                      _selectedCategory = value as Category;
+                      //->->
+                    });
+                    //print(value);
+                  }
+                ),
+                const SizedBox(width: 16,),
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    //crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(_selectedDate == null ? 'No date selected!' : formatter.format(_selectedDate!)),
+                      IconButton(onPressed:_presentDatePicker, 
+                        icon: const Icon(Icons.calendar_month)
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            )
+            else
             Row(
               children: [
                 Expanded(
@@ -123,6 +197,21 @@ class _NewExpenseState extends State<NewExpense> {
               ],
             ),
             const SizedBox(height: 20,),
+            if(width>=600)
+            Row(
+              children: [
+                const Spacer(),
+                TextButton(onPressed: (){
+                  Navigator.pop(context);
+                }, 
+                  child: const Text('Cancel'),
+                ),
+                ElevatedButton(onPressed: _submitExpenseData,
+                  child: const Text('Save Expense'),
+                ),
+              ],
+            )
+            else
             Row(
               children: [
                 DropdownButton(
@@ -157,5 +246,8 @@ class _NewExpenseState extends State<NewExpense> {
         ),
       ),
     );
+    }
+    ));
+    
   }
 }
